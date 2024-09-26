@@ -1,0 +1,38 @@
+version: "1"
+
+package:
+  id: com.foxmail.deepin
+  name: com.foxmail.deepin
+  version: 1.0.0.0
+  kind: app
+  description: |
+    com.foxmail.deepin_7.2.25.259deepin4_amd64
+base: org.deepin.base.wine
+runtime: org.deepin.runtime.wine
+
+command:
+  - /opt/apps/com.foxmail.deepin/files/run.sh
+
+sources:
+  - kind: file
+    url: http://10.0.32.76/apps/com.foxmail.deepin/cf7405b/signed_com.foxmail.deepin_7.2.25.259deepin4_amd64.deb
+    digest: af443d0ec21149dbd6b5aa6295db16281c94834e910d09d0bc6eb4e9a6df23b5
+
+build: |
+  set -x
+  SOURCES="linglong/sources"
+  dpkg-deb -x $SOURCES/signed_com.foxmail.deepin_7.2.25.259deepin4_amd64.deb $SOURCES/com.foxmail.deepin
+  # run.sh替换
+  FILE_PATH="$SOURCES/com.foxmail.deepin/opt/apps/com.foxmail.deepin/files/run.sh" 
+  sed -i -e 's|/opt/deepin-wine8-stable|/runtime/deepin-wine8-stable|g' \
+         -e 's|/opt/deepin-wine6-stable|/runtime/deepin-wine6-stable|g' \
+         -e 's|/opt/deepinwine|/runtime/deepinwine|g' \
+         -e 's|/opt/deepin-box86|/runtime/deepin-box86|g' \
+         -e 's|BOTTLEPATH="$HOME/.deepinwine/$BOTTLENAME"|BOTTLEPATH="$HOME/.linglong/$BOTTLENAME"|g' "$FILE_PATH"
+   
+  install -d $PREFIX/share
+  install -d $PREFIX/bin
+  # move files
+  cp -r $SOURCES/com.foxmail.deepin/opt/apps/com.foxmail.deepin/entries/* $PREFIX/share
+  cp -r $SOURCES/com.foxmail.deepin/opt/apps/com.foxmail.deepin/files/* $PREFIX
+  
