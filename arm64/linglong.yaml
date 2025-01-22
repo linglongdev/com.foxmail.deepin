@@ -3,29 +3,26 @@ version: "1"
 package:
   id: com.foxmail.deepin
   name: com.foxmail.deepin
-  version: 1.0.0.2
+  version: 1.0.0.0
   kind: app
   description: |
-    com.foxmail.deepin_7.2.25.259deepin6_amd64
-    
-base: org.deepin.base.wine/23.2.0
-runtime: org.deepin.runtime.wine/23.2.1
+    signed_com.foxmail.deepin_7.2.25.259deepin5_arm64.deb
 
+base: org.deepin.base.wine/23.0.0/arm64
+runtime: org.deepin.runtime.wine/23.0.0/arm64
 
 command:
   - /opt/apps/com.foxmail.deepin/files/run.sh
 
 sources:
   - kind: file
-    url: https://winedata-dev.deepin.com/apps/com.foxmail.deepin/b2a39ee/signed_com.foxmail.deepin_7.2.25.259deepin6_amd64.deb
-    digest: 16708043b4527071b50c0a0d31f5b327bc480f088a0fedbffa3e1862907c607c
-
+    url: https://winedata-dev.deepin.com/apps/com.foxmail.deepin/c5dc8dd/signed_com.foxmail.deepin_7.2.25.259deepin5_arm64.deb
+    digest: a72affe645318045e51574ce74f12d621b93a734312bd79afdff3d906662e55a
 
 build: |
   set -x
   SOURCES="linglong/sources"
-  dpkg-deb -x $SOURCES/signed_com.foxmail.deepin_7.2.25.259deepin6_amd64.deb $SOURCES/com.foxmail.deepin
-
+  dpkg-deb -x $SOURCES/signed_com.foxmail.deepin_7.2.25.259deepin5_arm64.deb $SOURCES/com.foxmail.deepin
   # run.sh替换
   FILE_PATH="$SOURCES/com.foxmail.deepin/opt/apps/com.foxmail.deepin/files/run.sh" 
   sed -i -e 's|/opt/deepin-wine8-stable|/runtime/deepin-wine8-stable|g' \
